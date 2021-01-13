@@ -1,21 +1,41 @@
 <template>
   <div class="container">
     <global-header :user="user" />
-    <column-list :list="testData"/>
+    <form>
+      <div class="mb-3">
+        <div class="form-label">Email address</div>
+        <validate-input :rules="emailRules" />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1">
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+      </div>
+      <button type="button" class="btn btn-primary">Submit</button>
+    </form>
+<!--    <column-list :list="testData"/>-->
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
-import ColumnList, { ColumnProp } from './components/ColumnList.vue'
+import ValidateInput, { RulesProp } from './components/ValidateInput.vue'
+import { ColumnProp } from './components/ColumnList.vue'
 import GlobalHeader, { UserProp } from './components/GlobalHeader.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    ColumnList, GlobalHeader
+    GlobalHeader, ValidateInput
   },
   setup () {
+    const emailRules: RulesProp = reactive([
+      { type: 'required', message: '请输入邮箱' },
+      { type: 'email', message: '请输入正确的邮箱格式' }
+    ])
     const testData: ColumnProp[] = [
       {
         id: 1,
@@ -37,7 +57,8 @@ export default defineComponent({
     }
     const data = reactive({
       testData,
-      user
+      user,
+      emailRules
     })
     const refData = toRefs(data)
     return {
