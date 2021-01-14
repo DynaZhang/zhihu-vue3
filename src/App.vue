@@ -4,7 +4,7 @@
     <form>
       <div class="mb-3">
         <div class="form-label">Email address</div>
-        <validate-input :rules="emailRules" />
+        <validate-input v-model="email" :rules="emailRules" />
       </div>
       <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Password</label>
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+import { defineComponent, reactive, toRefs, ref } from 'vue'
 import ValidateInput, { RulesProp } from './components/ValidateInput.vue'
 import { ColumnProp } from './components/ColumnList.vue'
 import GlobalHeader, { UserProp } from './components/GlobalHeader.vue'
@@ -32,6 +32,7 @@ export default defineComponent({
     GlobalHeader, ValidateInput
   },
   setup () {
+    const email = ref('12312312')
     const emailRules: RulesProp = reactive([
       { type: 'required', message: '请输入邮箱' },
       { type: 'email', message: '请输入正确的邮箱格式' }
@@ -62,7 +63,8 @@ export default defineComponent({
     })
     const refData = toRefs(data)
     return {
-      ...refData
+      ...refData,
+      email
     }
   }
 })
